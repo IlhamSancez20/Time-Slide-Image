@@ -116,16 +116,16 @@ Aplikasi ini membutuhkan integrasi backend dari Google. Silakan ikuti langkah-la
 1. Di halaman Google Apps Script, klik tombol **Deploy** di pojok kanan atas > **New deployment**.
 2. Klik ikon roda gigi ⚙️ pada Select type, lalu pilih Web app.
 3. Isi konfigurasi sebagai berikut:
-   - **Description**: Interactive Gallery API
-   - **Execute as**: Me (email_anda@gmail.com)
-   - **Who has access**: Anyone (Wajib memilih 'Anyone' agar aplikasi frontend bisa mengakses API tanpa login).
+   - **Description**: `Interactive Gallery API`
+   - **Execute as**: `Me (email_anda@gmail.com)`
+   - **Who has access**: `Anyone` (Wajib memilih 'Anyone' agar aplikasi frontend bisa mengakses API tanpa login).
 4. Klik tombol **Deploy**.
 5. Klik **Authorize access**, pilih akun Google Anda, lalu berikan izin akses (Allow).
-6. Setelah selesai, salin **Web App URL** yang dihasilkan (URL berakhiran /exec).
+6. Setelah selesai, salin **Web App URL** yang dihasilkan (URL berakhiran `/exec`).
 
 ### Langkah B: Menghubungkan URL ke Frontend
-1. Buka file script.js pada komputer/editor kode Anda (misal: VS Code).
-2. Cari variabel GAS_API_URL pada bagian atas file (sekitar baris ke-2), lalu ganti nilainya dengan Web App URL yang baru disalin:
+1. Buka file `script.js` pada komputer/editor kode Anda (misal: VS Code).
+2. Cari variabel `GAS_API_URL` pada bagian atas file (sekitar baris ke-2), lalu ganti nilainya dengan Web App URL yang baru disalin:
    ```javascript
    const CONFIG = {
    GAS_API_URL: 'HTTPS://SCRIPT.GOOGLE.COM/MACROS/S/AKFYCBX.../EXEC', // Tempelkan URL Anda di sini
