@@ -126,3 +126,9 @@ Aplikasi ini membutuhkan integrasi backend dari Google. Silakan ikuti langkah-la
 ### Langkah B: Menghubungkan URL ke Frontend
 1. Buka file script.js pada komputer/editor kode Anda (misal: VS Code).
 2. Cari variabel GAS_API_URL pada bagian atas file (sekitar baris ke-2), lalu ganti nilainya dengan Web App URL yang baru disalin:
+   ```javascript
+   const CONFIG = {
+   GAS_API_URL: 'HTTPS://SCRIPT.GOOGLE.COM/MACROS/S/AKFYCBX.../EXEC', // Tempelkan URL Anda di sini
+   DEFAULT_TIMER_SECONDS: 120,
+   MAX_UPLOAD_SIZE_BYTES: 500 * 1024
+   };
