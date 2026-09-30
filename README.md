@@ -28,7 +28,7 @@ Selamat datang di repositori **Interactive Web Gallery & Auto-Slideshow Web App*
 8. [🔓 Lisensi & Hak Penggunaan](#8-lisensi--hak-penggunaan)
 
 ---
-
+<a id="1-alasan-pembuatan-website"></a>
 ## 1. 💡 Alasan Pembuatan Website
 Website ini diciptakan untuk memenuhi kebutuhan akan **sistem galeri visual interaktif modern** yang ringan, elegan, dan fleksibel tanpa membutuhkan biaya server database mahal.
 
