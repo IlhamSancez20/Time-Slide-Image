@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slideshow Image Timer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="bg-blur-container">
+    <div class="glow-sphere sphere-1"></div>
+    <div class="glow-sphere sphere-2"></div>
+  </div>
+
+  <div id="app" class="app-container">
+
+    <header class="top-bar glass-panel" id="topBar">
+      <div class="brand-section">
+        <h1 id="appTitle" contenteditable="true" title="Klik untuk mengedit judul" data-i18n-title="editTitleHint">
+          Waktu Slideshow Gambar
+        </h1>
+        <i class="fa-solid fa-pen-to-square edit-icon"></i>
+      </div>
+
+      <div class="clock-widget glass-pill">
+        <div class="time-display" id="timeDisplay">00:00:00</div>
+        <div class="date-display" id="dateDisplay">Senin, 01 Januari 2026</div>
+      </div>
+
+      <div class="header-actions">
+        <div class="audio-control-group glass-pill">
+          <button id="btnAudioToggle" class="icon-btn" title="Toggle Music">
+            <i class="fa-solid fa-volume-xmark" id="audioIcon"></i>
+          </button>
+          <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0.5" class="volume-slider">
+        </div>
+
+        <div class="lang-switcher glass-pill">
+          <button id="btnLangId" class="lang-btn active">ID</button>
+          <button id="btnLangEn" class="lang-btn">EN</button>
+        </div>
+
+        <button id="btnOpenGallery" class="btn btn-secondary glass-btn">
+          <i class="fa-solid fa-images"></i> <span data-i18n="gallery">Galeri</span>
+        </button>
+        <button id="btnOpenUpload" class="btn btn-primary glass-btn">
+          <i class="fa-solid fa-cloud-arrow-up"></i> <span data-i18n="upload">Unggah</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="focus-display-area" id="focusArea">
+      
+      <div class="image-viewer-container">
+        <div id="emptyState" class="empty-state glass-panel hidden">
+          <i class="fa-regular fa-image empty-icon"></i>
+          <h2 data-i18n="noImages">Belum Ada Gambar</h2>
+          <p data-i18n="uploadPrompt">Silakan unggah gambar pertama Anda untuk memulai slideshow.</p>
+        </div>
+
+        <img id="mainImageViewer" class="main-image" src="" alt="Gallery Image">
+      </div>
+
+      <div class="floating-controls glass-panel" id="bottomControls">
+        
+        <div class="image-meta" id="imageMeta">
+          <span class="meta-title" id="lblImageName">-</span>
+          <span class="meta-index" id="lblImageCounter">0 / 0</span>
+        </div>
+
+        <div class="timer-centerpiece" id="timerCenterpiece">
+          <div class="timer-ring-wrapper" id="timerRingWrapper" title="Sisa Waktu Slideshow">
+            <svg class="timer-svg" viewBox="0 0 100 100">
+              <circle class="timer-bg-circle" cx="50" cy="50" r="45"></circle>
+              <circle id="timerProgress" class="timer-progress-circle" cx="50" cy="50" r="45"></circle>
+            </svg>
+            <div class="timer-text" id="lblTimer">02:00</div>
+          </div>
+
+          <div class="timer-buttons" id="timerButtons">
+            <button id="btnAdd30s" class="btn-chip" title="+30 Detik">+30s</button>
+            <button id="btnAdd1m" class="btn-chip" title="+1 Menit">+1m</button>
+            <button id="btnTimerToggle" class="btn-circle btn-accent">
+              <i class="fa-solid fa-play" id="playIcon"></i>
+            </button>
+            <button id="btnTimerReset" class="btn-circle btn-subtle" title="Reset 2 Menit">
+              <i class="fa-solid fa-rotate-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="nav-controls" id="navControls">
+          <button id="btnPrevImage" class="btn-icon-lg" title="Sebelumnya"><i class="fa-solid fa-chevron-left"></i></button>
+          <button id="btnNextImage" class="btn-icon-lg" title="Berikutnya"><i class="fa-solid fa-chevron-right"></i></button>
+          <button id="btnDeleteCurrent" class="btn-icon-lg btn-danger" title="Hapus Gambar Ini">
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+
+          <button id="btnToggleFullscreen" class="btn-icon-lg btn-fullscreen" title="Layar Penuh (Focus Mode)">
+            <i class="fa-solid fa-expand" id="fullscreenIcon"></i>
+          </button>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <div id="uploadModal" class="modal-overlay hidden">
+    <div class="modal-card glass-panel">
+      <div class="modal-header">
+        <h3 data-i18n="modalUploadTitle">Unggah Gambar Baru</h3>
+        <button class="btnCloseModal modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="drop-zone" id="dropZone">
+          <i class="fa-solid fa-file-arrow-up drop-icon"></i>
+          <p data-i18n="dragDropText">Tarik & lepas file gambar ke sini atau</p>
+          <label for="fileInput" class="btn btn-primary btn-sm glass-btn" data-i18n="browseFile">Cari File</label>
+          <input type="file" id="fileInput" accept="image/*" class="hidden-input">
+          <span class="file-spec-tip">JPG, PNG, WEBP</span>
+        </div>
+        
+        <div id="uploadPreviewContainer" class="upload-preview hidden">
+          <img id="uploadPreviewImg" src="" alt="Preview">
+          <div class="file-details">
+            <span id="lblFileName">filename.jpg</span>
+            <span id="lblFileSize">0 KB</span>
+          </div>
+        </div>
+
+        <div id="uploadProgressBar" class="progress-bar-container hidden">
+          <div id="uploadProgressFill" class="progress-bar-fill"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btnCloseModal btn btn-secondary glass-btn" data-i18n="cancel">Batal</button>
+        <button id="btnSubmitUpload" class="btn btn-primary glass-btn" disabled data-i18n="uploadAction">Unggah</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="galleryModal" class="modal-overlay hidden">
+    <div class="modal-card glass-panel modal-lg">
+      <div class="modal-header">
+        <h3 data-i18n="modalGalleryTitle">Kelola Daftar Galeri</h3>
+        <button class="btnCloseModal modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="galleryGrid" class="gallery-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
