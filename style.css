@@ -69,6 +69,24 @@ body {
   padding: 6px 14px;
 }
 
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  color: var(--text-main);
+}
+
+.glass-btn { background: rgba(255, 255, 255, 0.08); }
+.glass-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
+.btn-primary { background: linear-gradient(135deg, #0ea5e9, #6366f1); box-shadow: 0 4px 15px var(--primary-glow); }
+
 .app-container {
   position: relative;
   z-index: 10;
@@ -119,15 +137,6 @@ body {
   font-weight: 700; font-size: 0.75rem; cursor: pointer; padding: 2px 6px; border-radius: 8px;
 }
 .lang-btn.active { background: var(--primary-accent); color: #000; }
-
-.btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 8px 16px; border-radius: 12px; border: 1px solid var(--glass-border);
-  font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.25s ease; color: var(--text-main);
-}
-.glass-btn { background: rgba(255, 255, 255, 0.08); }
-.glass-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); }
-.btn-primary { background: linear-gradient(135deg, #0ea5e9, #6366f1); box-shadow: 0 4px 15px var(--primary-glow); }
 
 .focus-display-area {
   position: relative;
