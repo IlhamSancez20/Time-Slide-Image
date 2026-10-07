@@ -1,134 +1,320 @@
-# 🖼️ Interactive Web Gallery & Auto-Slideshow Web App
-
 <div align="center">
 
-**Pilih Bahasa / Select Language:**
+  <h1>🚀 Nama Proyek Anda / Your Project Name</h1>
+  <p><strong>Solusi perangkat lunak modern, efisien, dan interaktif untuk kebutuhan digital Anda.</strong></p>
+  <p><em>A modern, efficient, and interactive software solution for your digital needs.</em></p>
 
-[🇮🇩 Bahasa Indonesia](#-bahasa-indonesia) | [🇬🇧 English](#-english)
+  <!-- Badges -->
+  <p>
+    <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+    <img src="https://img.shields.io/badge/version-1.0.0-blue.svg" alt="Version">
+    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome">
+    <img src="https://img.shields.io/badge/Language-Indonesian%20%7C%20English-orange.svg" alt="Multi-Language">
+  </p>
 
----
+  <br />
+
+  <!-- Navigation Buttons -->
+  <a href="#-bahasa-indonesia-primer"><b>🇮🇩 Bahasa Indonesia (Primer)</b></a> • 
+  <a href="#-english-secondary"><b>🇬🇧 English (Secondary)</b></a>
 
 </div>
 
-<a id="bahasa-indonesia"></a>
+<hr />
 
-# 🇮🇩 Bahasa Indonesia
+<h2 id="-bahasa-indonesia-primer">🇮🇩 Bahasa Indonesia (Primer)</h2>
 
-Selamat datang di repositori **Aplikasi Web Galeri Interaktif & Slideshow Otomatis**! Dokumentasi ini disusun untuk membantu Anda memahami, menginstal, mengonfigurasi, dan menggunakan aplikasi web galeri interaktif ini secara mandiri.
+<details open>
+<summary><b>1. 🎯 Kenapa Ini Dibuat? (Why Was This Created?)</b></summary>
+<br>
 
----
+Proyek ini dibangun untuk menjawab tantangan nyata yang sering dihadapi oleh pengembang maupun pengguna harian dalam mengelola alur kerja digital yang kompleks.
 
-## 📋 Daftar Isi
-1. [💡 Alasan Pembuatan Website](#1-alasan-pembuatan-website)
-2. [🛠️ Bahasa Pemrograman & Teknologi](#2-bahasa-pemrograman--teknologi)
-3. [📦 Cara Install](#3-cara-install)
-4. [⚙️ Cara Pasang](#4-cara-pasang)
-5. [🚀 Cara Memasang](#5-cara-memasang-integrasi-frontend--backend)
-6. [📖 Cara Menggunakan Aplikasi](#6-cara-menggunakan-aplikasi)
-7. [👤 Pembuat](#7-pembuat)
-8. [🔓 Lisensi & Hak Penggunaan](#8-lisensi--hak-penggunaan)
+* **Latar Belakang Permasalahan:**
+  Banyak perangkat lunak sejenis yang saat ini beredar memiliki performa yang berat, konfigurasi yang membingungkan, biaya lisensi berbayar yang mahal, atau keterbatasan dalam fleksibilitas kustomisasi.
+  
+* **Tujuan Utama:**
+  1. **Efisiensi:** Menyediakan alat kerja yang ringan, berkecepatan tinggi, dan hemat konsumsi memori/sumber daya sistem.
+  2. **Kemudahan Akses:** Menghadirkan antarmuka pengguna yang intuitif sehingga dapat dioperasikan oleh pemula hingga profesional.
+  3. **Otomatisasi:** Mengurangi tugas-tugas repetitif sehingga pengguna dapat fokus pada pengembangan ide inti.
 
----
-<a id="1-alasan-pembuatan-website"></a>
-
-## 1. 💡 Alasan Pembuatan Website
-Website ini diciptakan untuk memenuhi kebutuhan akan **sistem galeri visual interaktif modern** yang ringan, elegan, dan fleksibel tanpa membutuhkan biaya server database mahal.
-
-Beberapa alasan utama pengembangannya meliputi:
-* **Solusi Storage Berbiaya Nol ($0)**: Memanfaatkan kombinasi **Google Drive** sebagai Cloud Storage dan **Google Sheets** sebagai database indeks gambar melalui **Google Apps Script (GAS)**.
-* **Tampilan Interaktif & Modern**: Menghadirkan antarmuka berbasis *Glassmorphism/Neumorphism* yang responsif dengan efek visual dinamis.
-* **Pengoptimasi Presentasi / Papan Informasi**: Dilengkapi fitur *Auto-Slideshow* dengan timer hitung mundur, audio latar belakang (*Atmospheric Synthesizer*), serta mode *Fullscreen* bersih untuk pameran, *digital signage*, atau portofolio pribadi.
-* **Otomatisasi Ukuran File**: Mengompresi file gambar yang diunggah secara otomatis langsung di sisi klien (*client-side*) agar ukuran file tetap efisien (< 500 KB) sebelum dikirim ke cloud.
+* **Visi Jangka Panjang:**
+  Menciptakan ekosistem perangkat lunak yang inklusif, berkelanjutan, dan secara konsisten memberikan dampak positif bagi efisiensi kerja komunitas pengembang global.
 
 ---
-<a id="2-bahasa-pemrograman--teknologi"></a>
+</details>
 
-## 2. 🛠️ Bahasa Pemrograman & Teknologi
+<details open>
+<summary><b>2. 📝 Deskripsi Proyek (Project Description)</b></summary>
+<br>
 
-Aplikasi ini dibangun menggunakan kombinasi teknologi web modern tanpa ketergantungan pada *framework* eksternal yang berat (Pure HTML/CSS/JS Native):
+Proyek ini merupakan aplikasi serbaguna yang dibangun dengan arsitektur modern berbasis modul yang terisolasi. Aplikasi ini menggabungkan fleksibilitas tinggi dengan performa eksekusi tingkat tinggi.
 
-| Sisi (Side) | Teknologi / Bahasa | Fungsi & Kegunaan |
+### 🌟 Fitur Unggulan
+
+| Fitur | Deskripsi Fungsi | Dampak bagi Pengguna |
 | :--- | :--- | :--- |
-| **Frontend** | **HTML5** | Struktur antarmuka dan elemen modal/viewer. |
-| | **CSS3** | Layouting (Flexbox & Grid), Glassmorphism, CSS Variables, dan Animasi. |
-| | **JavaScript (ES6+)** | Logika interaksi UI, Timer, Kompresi Gambar Canvas, & Fetch API. |
-| | **Web Audio API** | Efek suara sintetis atmosferik tanpa menggunakan file MP3 eksternal. |
-| **Backend & Database** | **Google Apps Script (GAS)** | REST API serverless berbasis JavaScript untuk menangani request GET/POST. |
-| | **Google Drive API** | Media penyimpanan file gambar di cloud. |
-| | **Google Sheets API** | Database relasional sederhana untuk indeks metadata gambar. |
-| **Library Eksternal** | **FontAwesome 6** | Ikon grafis antarmuka. |
-| | **Google Fonts** | Tipografi (*Plus Jakarta Sans*). |
+| **Interaktif & Dinamis** | Antarmuka berbasis respons cepat dengan kontrol visual intuitif | Pengalaman penggunaan yang mulus dan menyenangkan |
+| **Arsitektur Ringan** | Dibangun tanpa ketergantungan (*dependency*) berlebihan | Bebas *lag* dan hemat konsumsi daya perangkat |
+| **Kustomisasi Penuh** | Mendukung pengaturan konfigurasi kustom via `.env` atau JSON | Fleksibel untuk disesuaikan dengan berbagai skenario |
+| **Multi-Bahasa Native** | Dukungan terintegrasi untuk Bahasa Indonesia dan Inggris | Memudahkan aksesibilitas bagi pengguna lokal & internasional |
 
 ---
-<a id="3-cara-install"></a>
+</details>
 
-## 3. 📦 Cara Install (Persiapan File)
+<details open>
+<summary><b>3. 🛠️ Cara Install, Pasang, dan Penggunaan (Installation & Usage)</b></summary>
+<br>
 
-Langkah awal untuk memiliki project ini di komputer lokal Anda:
+### 📋 Prasyarat Sistem (*Prerequisites*)
+Pastikan lingkungan pengembangan Anda sudah terpasang perangkat lunak berikut:
+* **Node.js** (Minimal versi `18.0.0` atau lebih baru)
+* **Git** (Untuk kloning repositori)
+* **NPM** atau **Yarn** / **PNPM** (Pengelola paket)
 
-1. **Unduh Repositori / File Proyek**
-   * Klik tombol **Code** > **Download ZIP** pada halaman GitHub ini, lalu ekstrak ke komputer Anda.
-   * Atau *clone* repositori menggunakan Git terminal:
-     ```bash
-     git clone [https://github.com/username/interactive-web-gallery.git](https://github.com/username/interactive-web-gallery.git)
-     ```
-2. **Pastikan Struktur File Lengkap**
-   Pastikan dalam folder proyek Anda terdapat file berikut:
-   * `index.html` (Tampilan utama)
-   * `style.css` (Gaya antarmuka)
-   * `script.js` (Logika aplikasi)
-   * `Code.gs` (Kode script backend Google)
-   * `README.md` (Dokumentasi)
+### 💻 Langkah Instalasi & Pemasangan
 
-   ---
-<a id="4-cara-pasang"></a>
+1. **Kloning Repositori ke Perangkat Lokal:**
+   ```bash
+   git clone https://github.com/username/nama-repositori.git
+   cd nama-repositori
+   ```
 
-## ⚙️ 4. Cara Pasang (Konfigurasi Google Drive, Sheets & Apps Script)
+2. **Instal Seluruh Dependensi:**
+   ```bash
+   npm install
+   # Atau jika Anda menggunakan Yarn:
+   yarn install
+   ```
 
-Aplikasi ini membutuhkan integrasi backend dari Google. Silakan ikuti langkah-langkah mudah di bawah ini:
+3. **Pengaturan Konfigurasi Lingkungan (*Environment*):**
+   Salin berkas contoh `.env.example` menjadi `.env` lalu sesuaikan nilainya:
+   ```bash
+   cp .env.example .env
+   ```
 
-### **Langkah A: Penyiapan Google Drive Folder**
-1. Buka [Google Drive](https://drive.google.com).
-2. Buat **Folder Baru** (Misalnya diberi nama: `Web Gallery Storage`).
-3. Buka folder tersebut, lalu salin **Folder ID** dari URL di browser Anda.
-   * *Contoh URL*: `https://drive.google.com/drive/folders/1hUmqHwJuN4yW1_UyfRyRnuevpCpIbPWd`
-   * *Folder ID Anda adalah*: `1hUmqHwJuN4yW1_UyfRyRnuevpCpIbPWd`
-4. Ubah akses berbagi folder menjadi: **"Siapa saja yang memiliki link dapat melihat" (*Anyone with the link can view*)**.
+### 🚀 Cara Penggunaan
 
-### **Langkah B: Penyiapan Google Sheets**
-1. Buka [Google Sheets](https://sheets.google.com) dan buat dokumen baru.
-2. Beri nama spreadsheet Anda (Misal: `Database Galeri Web`).
-3. Biarkan Sheet1 kosong (sistem akan membuat header kolom otomatis saat pertama kali dijalankan).
+* **Menjalankan Moda Pengembangan (*Development Mode*):**
+  ```bash
+  npm run dev
+  ```
+  Aplikasi akan berjalan secara lokal di `http://localhost:3000`.
 
-### **Langkah C: Menyiapkan Google Apps Script (GAS)**
-1. Pada dokumen Google Sheets yang telah dibuat, klik menu **Ekstensi (*Extensions*) > Apps Script**.
-2. Hapus semua kode default yang ada di dalam editor.
-3. Buka file `Code.gs` dari folder proyek Anda, lalu salin seluruh kodenya dan tempelkan (*paste*) ke editor Apps Script.
-4. Sesuaikan variabel `FOLDER_ID` pada baris atas kode `Code.gs` dengan ID folder Google Drive Anda:
-   ```javascript
-   const FOLDER_ID = '1hUmqHwJuN4yW1_UyfRyRnuevpCpIbPWd'; // Ganti dengan Folder ID Anda
+* **Membuat Versi Produksi (*Production Build*):**
+  ```bash
+  npm run build
+  npm start
+  ```
 
 ---
+</details>
 
+<details open>
+<summary><b>4. 🌐 Kenapa Ini Open-Source? (Why Open-Source?)</b></summary>
+<br>
 
-## 🔌 5. Cara Memasang (Deploy Backend & Menghubungkan ke Frontend)
-### Langkah A: Dipublikasikan sebagai Web App (Deployment)
-1. Di halaman Google Apps Script, klik tombol **Deploy** di pojok kanan atas > **New deployment**.
-2. Klik ikon roda gigi ⚙️ pada Select type, lalu pilih Web app.
-3. Isi konfigurasi sebagai berikut:
-   - **Description**: `Interactive Gallery API`
-   - **Execute as**: `Me (email_anda@gmail.com)`
-   - **Who has access**: `Anyone` (Wajib memilih 'Anyone' agar aplikasi frontend bisa mengakses API tanpa login).
-4. Klik tombol **Deploy**.
-5. Klik **Authorize access**, pilih akun Google Anda, lalu berikan izin akses (Allow).
-6. Setelah selesai, salin **Web App URL** yang dihasilkan (URL berakhiran `/exec`).
+Kami meyakini bahwa inovasi terbaik di dunia teknologi tercipta melalui keterbukaan, transparansi, dan kolaborasi tanpa batas.
 
-### Langkah B: Menghubungkan URL ke Frontend
-1. Buka file `script.js` pada komputer/editor kode Anda (misal: VS Code).
-2. Cari variabel `GAS_API_URL` pada bagian atas file (sekitar baris ke-2), lalu ganti nilainya dengan Web App URL yang baru disalin:
-   ```javascript
-   const CONFIG = {
-   GAS_API_URL: 'HTTPS://SCRIPT.GOOGLE.COM/MACROS/S/AKFYCBX.../EXEC', // Tempelkan URL Anda di sini
-   DEFAULT_TIMER_SECONDS: 120,
-   MAX_UPLOAD_SIZE_BYTES: 500 * 1024
-   };
+* **Transparansi & Keamanan Kode:**
+  Dengan membuka kode sumber (*source code*), siapa saja dapat memeriksa, memverifikasi, dan memastikan bahwa tidak ada kode berbahaya atau celah keamanan yang tersembunyi.
+
+* **Inovasi Kolaboratif:**
+  Komunitas global dapat memberikan masukan (*feedback*), melaporkan *bug*, hingga mengirimkan kontribusi fitur baru melalui *Pull Request* (PR).
+
+* **Pendidikan & Pembelajaran:**
+  Proyek ini diharapkan dapat menjadi materi studi kasus bagi para pelajar, *developer* pemula, maupun praktisi yang ingin mempelajari arsitektur perangkat lunak modern.
+
+* **Demokratisasi Teknologi:**
+  Perangkat lunak berkualitas seharusnya dapat diakses oleh semua orang tanpa terkendala oleh hambatan finansial.
+
+---
+</details>
+
+<details open>
+<summary><b>5. 💖 Dukungan & Donasi (Support & Donation)</b></summary>
+<br>
+
+Aplikasi ini disediakan **100% Gratis** dan akan terus dipelihara secara *open-source*. Namun, pemeliharaan sistem, sewa server uji coba, serta pengembangan fitur baru membutuhkan waktu dan biaya operasional.
+
+Jika proyek ini membantu atau memudahkan pekerjaan Anda, Anda dapat memberikan apresiasi dan bantuan finansial melalui opsi di bawah ini:
+
+### 💳 Opsi Metode Donasi
+
+<table align="center" width="100%">
+  <tr>
+    <td align="center" width="50%">
+      <b>🇮🇩 Transfer Bank Lokal</b><br><br>
+      <b>Bank:</b> BCA / Mandiri / BNI<br>
+      <b>No. Rekening:</b> <code>1234-5678-9012</code><br>
+      <b>Atas Nama:</b> Nama Pemilik Rekening
+    </td>
+    <td align="center" width="50%">
+      <b>📲 QRIS / Scan QR Code</b><br><br>
+      <img src="https://via.placeholder.com/150?text=Scan+QRIS+Code" alt="QRIS QR Code" width="150" /><br>
+      <i>Mendukung GoPay, OVO, DANA, ShopeePay, LinkAja & Semua Bank (BCA Mobile, Livin, dll)</i>
+    </td>
+  </tr>
+</table>
+
+### 🌐 Platform Donasi Daring (*Online Platform*)
+* 🇮🇩 [Saweria (Dukungan Lokal)](https://saweria.co/username)
+* 🇮🇩 [KaryaKarsa](https://karyakarsa.com/username)
+* 🌐 [Buy Me a Coffee](https://buymeacoffee.com/username)
+* 🌐 [GitHub Sponsors](https://github.com/sponsors/username)
+
+---
+</details>
+
+<br />
+<hr />
+
+<h2 id="-english-secondary">🇬🇧 English (Secondary)</h2>
+
+<details open>
+<summary><b>1. 🎯 Why Was This Created?</b></summary>
+<br>
+
+This project was built to address real-world challenges commonly faced by developers and everyday users when managing complex digital workflows.
+
+* **Problem Background:**
+  Many existing solutions on the market suffer from bloated performance, confusing configuration setups, expensive licensing fees, or limited customization flexibility.
+
+* **Primary Objectives:**
+  1. **Efficiency:** Provide a lightweight, high-speed tool with optimized memory and system resource consumption.
+  2. **Ease of Access:** Offer an intuitive user interface accessible to users ranging from beginners to seasoned professionals.
+  3. **Automation:** Reduce repetitive tasks so users can focus on their core ideas.
+
+* **Long-Term Vision:**
+  To foster an inclusive, sustainable software ecosystem that continuously delivers tangible productivity value to the global open-source community.
+
+---
+</details>
+
+<details open>
+<summary><b>2. 📝 Project Description</b></summary>
+<br>
+
+This project is a versatile application built on a modern modular architecture. It merges high operational flexibility with top-tier execution performance.
+
+### 🌟 Key Features
+
+| Feature | Function Description | User Benefit |
+| :--- | :--- | :--- |
+| **Interactive & Dynamic** | Fast-responding interface with intuitive controls | Smooth and enjoyable user experience |
+| **Lightweight Architecture** | Built without unnecessary bloat or overhead | Zero lag with low power consumption |
+| **Fully Customizable** | Flexible configuration via `.env` or JSON files | Adaptable to diverse production scenarios |
+| **Native Multi-Language** | Built-in support for Indonesian and English | Enhances global user accessibility |
+
+---
+</details>
+
+<details open>
+<summary><b>3. 🛠️ Installation & Usage Guide</b></summary>
+<br>
+
+### 📋 Prerequisites
+Ensure your local environment has the following prerequisites installed:
+* **Node.js** (Version `18.0.0` or higher)
+* **Git** (For repository cloning)
+* **NPM** or **Yarn** / **PNPM** (Package manager)
+
+### 💻 Step-by-Step Installation
+
+1. **Clone Repository to Local Machine:**
+   ```bash
+   git clone https://github.com/username/repository-name.git
+   cd repository-name
+   ```
+
+2. **Install All Dependencies:**
+   ```bash
+   npm install
+   # Or using Yarn:
+   yarn install
+   ```
+
+3. **Configure Environment Variables:**
+   Copy `.env.example` to `.env` and adjust the variables accordingly:
+   ```bash
+   cp .env.example .env
+   ```
+
+### 🚀 Usage Instructions
+
+* **Run Development Mode:**
+  ```bash
+  npm run dev
+  ```
+  The application will start locally at `http://localhost:3000`.
+
+* **Build & Run Production Mode:**
+  ```bash
+  npm run build
+  npm start
+  ```
+
+---
+</details>
+
+<details open>
+<summary><b>4. 🌐 Why Open-Source?</b></summary>
+<br>
+
+We strongly believe that true technological innovation thrives on openness, transparency, and boundless community collaboration.
+
+* **Transparency & Code Security:**
+  Open-sourcing the codebase enables anyone to inspect, verify, and ensure there are no hidden vulnerabilities or malicious code.
+
+* **Collaborative Innovation:**
+  The global community can submit feedback, report bugs, and contribute new features via Pull Requests (PRs).
+
+* **Educational Resource:**
+  Serves as a real-world reference for students, junior developers, and engineers wanting to study modern software architecture.
+
+* **Technology Democratization:**
+  Quality software should be accessible to everyone without financial barriers.
+
+---
+</details>
+
+<details open>
+<summary><b>5. 💖 Support & Donation</b></summary>
+<br>
+
+This application is provided **100% Free** and will remain open-source. However, server maintenance, testing infrastructure, and feature development require ongoing effort and financial resources.
+
+If this project saves you time or adds value to your workflow, consider supporting its development:
+
+### 💳 Donation Options
+
+<table align="center" width="100%">
+  <tr>
+    <td align="center" width="50%">
+      <b>🇮🇩 Indonesian Bank Transfer</b><br><br>
+      <b>Bank:</b> BCA / Mandiri / BNI<br>
+      <b>Account No:</b> <code>1234-5678-9012</code><br>
+      <b>Account Name:</b> Account Holder Name
+    </td>
+    <td align="center" width="50%">
+      <b>📲 QR Code / Digital Wallet</b><br><br>
+      <img src="https://via.placeholder.com/150?text=Scan+QR+Code" alt="QR Code" width="150" /><br>
+      <i>Supports GoPay, OVO, DANA, ShopeePay, LinkAja & International Apps</i>
+    </td>
+  </tr>
+</table>
+
+### 🌐 Online Support Platforms
+* 🌐 [Buy Me a Coffee](https://buymeacoffee.com/username)
+* 🌐 [GitHub Sponsors](https://github.com/sponsors/username)
+* 🇮🇩 [Saweria](https://saweria.co/username)
+* 🇮🇩 [KaryaKarsa](https://karyakarsa.com/username)
+
+---
+</details>
+
+<br />
+
+<div align="center">
+  <p>Made with ❤️ by the Open Source Community</p>
+</div>
