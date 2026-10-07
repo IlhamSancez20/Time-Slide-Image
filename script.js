@@ -127,6 +127,8 @@ class AtmosphericAudioSystem {
 
 const audioSys = new AtmosphericAudioSystem();
 
+let dom = {};
+
 document.addEventListener('DOMContentLoaded', () => {
   initDOM();
   initClock();
@@ -135,8 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initFullscreenHandler();
   fetchImagesFromGAS();
 });
-
-let dom = {};
 
 function initDOM() {
   dom.app = document.getElementById('app');
@@ -258,6 +258,43 @@ function bindEvents() {
   dom.btnSubmitUpload.addEventListener('click', uploadFileToGAS);
 }
 
+function initClock() {
+  const update = () => {
+    const now = new Date();
+    dom.timeDisplay.textContent = now.toLocaleTimeString(state.lang === 'id' ? 'id-ID' : 'en-US');
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    dom.dateDisplay.textContent = now.toLocaleDateString(state.lang === 'id' ? 'id-ID' : 'en-US', options);
+  };
+  update();
+  setInterval(update, 1000);
+}
+
+function initAutoUIHider() {
+  const resetTimerHide = () => {
+    if (dom.topBar) dom.topBar.classList.remove('auto-hide');
+    if (dom.imageMeta) dom.imageMeta.classList.remove('auto-hide');
+    if (dom.timerButtons) dom.timerButtons.classList.remove('auto-hide');
+    if (dom.navControls) dom.navControls.classList.remove('auto-hide');
+    if (dom.bottomControls) dom.bottomControls.classList.remove('no-bg');
+
+    clearTimeout(state.inactivityTimeout);
+
+    state.inactivityTimeout = setTimeout(() => {
+      if (state.isTimerRunning) {
+        if (dom.topBar) dom.topBar.classList.add('auto-hide');
+        if (dom.imageMeta) dom.imageMeta.classList.add('auto-hide');
+        if (dom.timerButtons) dom.timerButtons.classList.add('auto-hide');
+        if (dom.navControls) dom.navControls.classList.add('auto-hide');
+        if (dom.bottomControls) dom.bottomControls.classList.add('no-bg');
+      }
+    }, 4000);
+  };
+
+  window.addEventListener('mousemove', resetTimerHide);
+  window.addEventListener('touchstart', resetTimerHide);
+  window.addEventListener('keydown', resetTimerHide);
+}
+
 function toggleFullscreen() {
   if (!document.fullscreenElement) {
     dom.app.requestFullscreen().catch(err => {
@@ -274,17 +311,6 @@ function initFullscreenHandler() {
     dom.app.classList.toggle('is-fullscreen', isFS);
     dom.fullscreenIcon.className = isFS ? 'fa-solid fa-compress' : 'fa-solid fa-expand';
   });
-}
-
-function initClock() {
-  const update = () => {
-    const now = new Date();
-    dom.timeDisplay.textContent = now.toLocaleTimeString(state.lang === 'id' ? 'id-ID' : 'en-US');
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    dom.dateDisplay.textContent = now.toLocaleDateString(state.lang === 'id' ? 'id-ID' : 'en-US', options);
-  };
-  update();
-  setInterval(update, 1000);
 }
 
 function toggleTimer() {
@@ -376,6 +402,30 @@ function prevImage() {
   resetTimer(CONFIG.DEFAULT_TIMER_SECONDS);
 }
 
+function renderGalleryGrid() {
+  dom.galleryGrid.innerHTML = '';
+  state.images.forEach((img, index) => {
+    const card = document.createElement('div');
+    card.className = 'grid-item';
+    card.innerHTML = `
+      <img src="${img.directUrl}" alt="${img.fileName}">
+      <div class="grid-item-overlay">
+        <button class="btn-circle btn-accent" onclick="selectFromGrid(${index})">
+          <i class="fa-solid fa-eye"></i>
+        </button>
+      </div>
+    `;
+    dom.galleryGrid.appendChild(card);
+  });
+}
+
+window.selectFromGrid = function(index) {
+  state.currentIndex = index;
+  renderCurrentImage();
+  closeModal(dom.galleryModal);
+  resetTimer(CONFIG.DEFAULT_TIMER_SECONDS);
+};
+
 async function fetchImagesFromGAS() {
   try {
     const res = await fetch(CONFIG.GAS_API_URL);
@@ -397,6 +447,81 @@ async function fetchImagesFromGAS() {
       { id: '2', fileName: 'Sample Mountain Lake', directUrl: 'https://picsum.photos/id/1018/1920/1080' }
     ];
     renderCurrentImage();
+  }
+}
+
+async function uploadFileToGAS() {
+  if (!state.compressedBase64 || !state.selectedFile) return;
+
+  dom.btnSubmitUpload.disabled = true;
+  dom.uploadProgressBar.classList.remove('hidden');
+  dom.uploadProgressFill.style.width = '30%';
+
+  const payload = {
+    action: 'upload',
+    fileName: state.selectedFile.name.replace(/\.[^/.]+$/, "") + ".jpg",
+    mimeType: 'image/jpeg',
+    base64Data: state.compressedBase64
+  };
+
+  try {
+    dom.uploadProgressFill.style.width = '70%';
+    const res = await fetch(CONFIG.GAS_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+    
+    const result = await res.json();
+
+    if (result.status === 'success') {
+      dom.uploadProgressFill.style.width = '100%';
+      setTimeout(() => {
+        closeModal(dom.uploadModal);
+        state.images.push(result.data);
+        state.currentIndex = state.images.length - 1;
+        renderCurrentImage();
+        resetUploadForm();
+        alert(i18n[state.lang].uploadSuccess);
+      }, 300);
+    } else {
+      throw new Error(result.message || 'Gagal menyimpan file.');
+    }
+  } catch (err) {
+    alert('Proses upload gagal: ' + err.toString());
+  } finally {
+    dom.btnSubmitUpload.disabled = false;
+    dom.uploadProgressBar.classList.add('hidden');
+    dom.uploadProgressFill.style.width = '0%';
+  }
+}
+
+async function deleteCurrentImage() {
+  if (state.images.length === 0) return;
+  const curr = state.images[state.currentIndex];
+  if (!confirm(i18n[state.lang].confirmDelete)) return;
+
+  try {
+    const payload = { action: 'delete', id: curr.id };
+    const res = await fetch(CONFIG.GAS_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+
+    const result = await res.json();
+    if (result.status !== 'success') {
+      throw new Error(result.message || 'Gagal menghapus gambar di server.');
+    }
+
+    state.images.splice(state.currentIndex, 1);
+    if (state.currentIndex >= state.images.length) {
+      state.currentIndex = Math.max(0, state.images.length - 1);
+    }
+    renderCurrentImage();
+    alert(i18n[state.lang].deleteSuccess);
+  } catch (err) {
+    alert('Hapus gagal: ' + err.toString());
   }
 }
 
@@ -485,76 +610,6 @@ async function handleSelectedFile(file) {
   }
 }
 
-async function uploadFileToGAS() {
-  if (!state.compressedBase64 || !state.selectedFile) return;
-
-  dom.btnSubmitUpload.disabled = true;
-  dom.uploadProgressBar.classList.remove('hidden');
-  dom.uploadProgressFill.style.width = '30%';
-
-  const payload = {
-    action: 'upload',
-    fileName: state.selectedFile.name.replace(/\.[^/.]+$/, "") + ".jpg",
-    mimeType: 'image/jpeg',
-    base64Data: state.compressedBase64
-  };
-
-  try {
-    dom.uploadProgressFill.style.width = '70%';
-    const res = await fetch(CONFIG.GAS_API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(payload)
-    });
-    
-    const result = await res.json();
-
-    if (result.status === 'success') {
-      dom.uploadProgressFill.style.width = '100%';
-      setTimeout(() => {
-        closeModal(dom.uploadModal);
-        state.images.push(result.data);
-        state.currentIndex = state.images.length - 1;
-        renderCurrentImage();
-        resetUploadForm();
-        alert(i18n[state.lang].uploadSuccess);
-      }, 300);
-    } else {
-      throw new Error(result.message || 'Gagal menyimpan file.');
-    }
-  } catch (err) {
-    alert('Proses upload gagal: ' + err.toString());
-  } finally {
-    dom.btnSubmitUpload.disabled = false;
-    dom.uploadProgressBar.classList.add('hidden');
-    dom.uploadProgressFill.style.width = '0%';
-  }
-}
-
-async function deleteCurrentImage() {
-  if (state.images.length === 0) return;
-  const curr = state.images[state.currentIndex];
-  if (!confirm(i18n[state.lang].confirmDelete)) return;
-
-  try {
-    const payload = { action: 'delete', id: curr.id };
-    await fetch(CONFIG.GAS_API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(payload)
-    });
-
-    state.images.splice(state.currentIndex, 1);
-    if (state.currentIndex >= state.images.length) {
-      state.currentIndex = Math.max(0, state.images.length - 1);
-    }
-    renderCurrentImage();
-    alert(i18n[state.lang].deleteSuccess);
-  } catch (err) {
-    alert('Hapus gagal: ' + err.toString());
-  }
-}
-
 function resetUploadForm() {
   state.selectedFile = null;
   state.compressedBase64 = null;
@@ -563,58 +618,6 @@ function resetUploadForm() {
   dom.uploadProgressBar.classList.add('hidden');
   dom.uploadProgressFill.style.width = '0%';
   dom.btnSubmitUpload.disabled = true;
-}
-
-function renderGalleryGrid() {
-  dom.galleryGrid.innerHTML = '';
-  state.images.forEach((img, index) => {
-    const card = document.createElement('div');
-    card.className = 'grid-item';
-    card.innerHTML = `
-      <img src="${img.directUrl}" alt="${img.fileName}">
-      <div class="grid-item-overlay">
-        <button class="btn-circle btn-accent" onclick="selectFromGrid(${index})">
-          <i class="fa-solid fa-eye"></i>
-        </button>
-      </div>
-    `;
-    dom.galleryGrid.appendChild(card);
-  });
-}
-
-window.selectFromGrid = function(index) {
-  state.currentIndex = index;
-  renderCurrentImage();
-  closeModal(dom.galleryModal);
-  resetTimer(CONFIG.DEFAULT_TIMER_SECONDS);
-};
-
-function initAutoUIHider() {
-  const resetTimerHide = () => {
-    // Tampilkan kembali elemen navigasi saat ada interaksi
-    if (dom.topBar) dom.topBar.classList.remove('auto-hide');
-    if (dom.imageMeta) dom.imageMeta.classList.remove('auto-hide');
-    if (dom.timerButtons) dom.timerButtons.classList.remove('auto-hide');
-    if (dom.navControls) dom.navControls.classList.remove('auto-hide');
-    if (dom.bottomControls) dom.bottomControls.classList.remove('no-bg');
-
-    clearTimeout(state.inactivityTimeout);
-
-    state.inactivityTimeout = setTimeout(() => {
-      if (state.isTimerRunning) {
-        if (dom.topBar) dom.topBar.classList.add('auto-hide');
-        if (dom.imageMeta) dom.imageMeta.classList.add('auto-hide');
-        if (dom.timerButtons) dom.timerButtons.classList.add('auto-hide');
-        if (dom.navControls) dom.navControls.classList.add('auto-hide');
-        if (dom.bottomControls) dom.bottomControls.classList.add('no-bg');
-        // dom.timerCenterpiece sengaja TIDAK disembunyikan agar selalu aktif!
-      }
-    }, 4000);
-  };
-
-  window.addEventListener('mousemove', resetTimerHide);
-  window.addEventListener('touchstart', resetTimerHide);
-  window.addEventListener('keydown', resetTimerHide);
 }
 
 function initI18n() { switchLanguage(state.lang); }
